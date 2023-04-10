@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+
+.responsive-text {
+  @apply xs:text-14 sm:text-16 lg:text-18 xl:text-20;
+}
+
+h1,
+.heading-01 {
+  @apply font-black text-yellow uppercase leading-none xs:text-30 sm:text-40 md:text-50 lg:text-70;
+}
+
+h2,
+.heading-02 {
+  @apply font-black text-yellow uppercase tracking-widest xs:text-30 lg:text-50;
+}
+
+p {
+  @apply text-white-200 font-medium tracking-tighter;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #fca311;
+  border: 1px solid #131313;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #131313;
+}
+
+@tailwind utilities;
