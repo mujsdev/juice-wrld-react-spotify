@@ -38,29 +38,31 @@ const App = () => {
   };
 
   useEffect(() => {
-    // supabase.auth.onAuthStateChange(async (event, session) => {
-    //   if (event == "SIGNED_IN") {
-    //     console.log("Access token:", session?.provider_token);
-    //     spotifyApi.setAccessToken(session?.provider_token ?? null);
-    //   }
-    //   if (event == "SIGNED_OUT") {
-    //     spotifyApi.setAccessToken(null);
-    //   }
-    // });
-    // getTopTracks();
-    // getAlbums();
+    const storedToken = localStorage.getItem("spotifyAccessToken");
+
+    if (storedToken) {
+      spotifyApi.setAccessToken(storedToken);
+      getTopTracks();
+      getAlbums();
+    }
 
     supabase.auth.onAuthStateChange(async (event, session) => {
       if (event == "SIGNED_IN") {
-        spotifyApi.setAccessToken(session?.provider_token ?? null);
+        const accessToken = session?.provider_token ?? null;
+
+        spotifyApi.setAccessToken(accessToken);
         await getTopTracks();
         await getAlbums();
+
+        localStorage.setItem("spotifyAccessToken", accessToken!);
       }
 
       if (event == "SIGNED_OUT") {
         spotifyApi.setAccessToken(null);
         setTopTracks([]);
         setAlbums([]);
+
+        localStorage.removeItem("spotifyAccessToken");
       }
     });
   }, []);
